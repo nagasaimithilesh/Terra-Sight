@@ -1,0 +1,80 @@
+Project Title: TerraSight AI
+Subtitle: Satellite-Driven Virtual Agronomist & Precision Irrigation Engine
+
+1. Project Overview
+TerraSight AI is a cloud-based platform that creates a "Digital Twin" of any piece of land. By pulling multispectral data from satellites (like Sentinel-2) and fusing it with hyper-local weather data, the software calculates the Evapotranspiration Rate (ET 
+c
+​
+ )—essentially, how much water the soil has lost. It then provides the user with a precise "Watering Prescription" and health alerts (NDVI) directly to their phone.
+
+2. Core Features
+Virtual Soil Moisture Mapping: Estimating volumetric water content using satellite-derived indices (NDWI) and thermal data.
+
+NDVI Health Tracking: A heat map showing "Greenness" to detect pest outbreaks or nutrient deficiencies before they are visible to the human eye.
+
+Precision Irrigation Scheduler: A "Next 7 Days" plan that tells the user exactly how many liters/mm of water to apply based on upcoming rain and sun.
+
+Crop-Specific Logic: Specialized growth models for over 50+ crops (e.g., Maize, Wheat, Tomatoes).
+
+3. Complete Requirements
+A. Data Sources (The "Fuel")
+Satellite Imagery: Sentinel-2 API (via Copernicus or Sentinel Hub). Provides 10m resolution images every 5 days.
+
+Weather Data: OpenWeatherMap API or IBM Environmental Intelligence Suite for solar radiation, wind speed, and humidity.
+
+Soil Maps: OpenSoilData or ISRIC World Soil Information for baseline soil texture (sandy vs. clay).
+
+B. Technical Stack
+Backend: Python (Django or FastAPI)—Python is essential here for its scientific libraries (NumPy, Pandas, GeoPandas).
+
+Frontend: React or Vue.js for a web dashboard; Mapbox GL JS for rendering interactive satellite heat maps.
+
+Processing Engine: Google Earth Engine (GEE) API—This is the "heavy lifter" that processes massive satellite tiles in the cloud.
+
+AI Model: A Random Forest Regressor (using Scikit-learn) to correlate satellite light bands with actual soil moisture levels.
+
+C. Mathematical Formula (The Logic)
+The heart of the software is the FAO-56 Penman-Monteith equation, simplified for the app:
+
+ET 
+c
+​
+ =K 
+c
+​
+ ×ET 
+0
+​
+ 
+ET 
+c
+​
+ : The actual crop water requirement.
+
+K 
+c
+​
+ : The "Crop Coefficient" (changes as the plant grows).
+
+ET 
+0
+​
+ : Reference evapotranspiration (calculated from weather data).
+
+4. Implementation Roadmap
+Month 1: Data Integration. Connect to Sentinel-2 and fetch a "False Color" image of a specific GPS coordinate.
+
+Month 2: The Health Engine. Write the script to calculate NDVI (NIR−Red/NIR+Red) and display it as a color-coded map.
+
+Month 3: The Irrigation Engine. Integrate weather APIs to calculate daily water loss and build the recommendation logic.
+
+Month 4: User Interface. Build the dashboard where a farmer can "draw" their field boundary on a map and see their data.
+
+5. Why this project wins in 2026
+Zero Hardware Cost: No sensors to break, no batteries to change, and no installation needed.
+
+Massive Impact: Can reduce water usage by 30% to 50%, directly supporting SDG 6 (Clean Water) and SDG 2 (Zero Hunger).
+
+Commercial Potential: You can offer this as a "SaaS" (Software as a Service) to local governments or cooperatives.
+
+Would you like me to provide a sample Python code snippet to show you how to pull NDVI data for a specific location?
