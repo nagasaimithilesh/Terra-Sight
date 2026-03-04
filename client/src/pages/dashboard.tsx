@@ -174,27 +174,34 @@ export default function Dashboard() {
               ) : irrigationPlans?.length === 0 ? (
                 <div className="text-center p-6 text-muted-foreground">No plans scheduled.</div>
               ) : (
-                irrigationPlans?.slice(0, 5).map(plan => (
-                  <div key={plan.id} className="flex items-center justify-between p-4 rounded-xl bg-muted/50 border border-border/50 hover:bg-muted/80 transition-colors">
-                    <div className="flex items-center gap-4">
-                      <div className={`p-3 rounded-xl ${plan.status === 'applied' ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'}`}>
-                        <Droplets className="w-5 h-5" />
+                irrigationPlans?.slice(0, 5).map(plan => {
+                  const litersPerMm = Number(activeField.area) * 10000;
+                  const waterLiters = Number(plan.waterAmountMm) * litersPerMm;
+                  
+                  return (
+                    <div key={plan.id} className="flex items-center justify-between p-4 rounded-xl bg-muted/50 border border-border/50 hover:bg-muted/80 transition-colors">
+                      <div className="flex items-center gap-4">
+                        <div className={`p-3 rounded-xl ${plan.status === 'applied' ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'}`}>
+                          <Droplets className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <p className="font-bold text-foreground">{format(new Date(plan.date), "EEE, MMM d")}</p>
+                          <p className="text-xs text-muted-foreground flex items-center gap-1">
+                            <span className={plan.status === 'applied' ? 'text-green-600' : 'text-amber-500'}>
+                              • {plan.status.charAt(0).toUpperCase() + plan.status.slice(1)}
+                            </span>
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="font-bold text-foreground">{format(new Date(plan.date), "EEE, MMM d")}</p>
-                        <p className="text-xs text-muted-foreground flex items-center gap-1">
-                          <span className={plan.status === 'applied' ? 'text-green-600' : 'text-amber-500'}>
-                            • {plan.status.charAt(0).toUpperCase() + plan.status.slice(1)}
-                          </span>
+                      <div className="text-right">
+                        <p className="font-display font-bold text-lg text-blue-600">
+                          {waterLiters >= 1000 ? `${(waterLiters / 1000).toFixed(1)}k` : Math.round(waterLiters)}
                         </p>
+                        <p className="text-xs text-muted-foreground font-semibold">Liters</p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className="font-display font-bold text-lg text-blue-600">{Number(plan.waterAmountMm).toFixed(1)}</p>
-                      <p className="text-xs text-muted-foreground font-semibold">mm</p>
-                    </div>
-                  </div>
-                ))
+                  );
+                })
               )}
             </CardContent>
           </Card>

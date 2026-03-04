@@ -53,18 +53,25 @@ export function MapView({ fields, selectedFieldId, onFieldClick, height = "400px
     }
   }, [selectedFieldId, fields]);
 
+  useEffect(() => {
+    // Force a resize check when the map is rendered to ensure it tiles correctly
+    const timer = setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 200);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div style={{ height }} className="rounded-2xl overflow-hidden shadow-inner border border-border/50 bg-muted/20">
+    <div style={{ height }} className="rounded-2xl overflow-hidden shadow-inner border border-border/50 bg-muted/20 relative z-0">
       <MapContainer 
         center={center} 
         zoom={zoom} 
         style={{ height: "100%", width: "100%" }}
-        zoomControl={false}
+        zoomControl={true}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          className="map-tiles-light"
         />
         <MapController center={center} zoom={zoom} />
         

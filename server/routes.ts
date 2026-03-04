@@ -10,7 +10,6 @@ export async function registerRoutes(
   app: Express
 ): Promise<Server> {
   
-  // Seed Database with some sample data if it's empty
   await seedDatabase();
 
   app.get(api.fields.list.path, async (req, res) => {
@@ -31,10 +30,7 @@ export async function registerRoutes(
     try {
       const input = insertFieldSchema.parse(req.body);
       const field = await storage.createField(input);
-      
-      // Simulate backend generating data upon field creation
       await simulateDataGeneration(field.id);
-      
       res.status(201).json(field);
     } catch (err) {
       if (err instanceof z.ZodError) {
@@ -62,11 +58,15 @@ export async function registerRoutes(
   return httpServer;
 }
 
-// Simulate AI/Satellite data gathering for a newly added field
 async function simulateDataGeneration(fieldId: number) {
   const now = new Date();
-  
-  // Generate 7 days of historical health metrics
+  const field = await storage.getField(fieldId);
+  if (!field) return;
+
+  const areaHa = Number(field.area);
+  // Liters per 1mm per 1 hectare = 10,000L
+  const litersPerMm = areaHa * 10000;
+
   for (let i = 6; i >= 0; i--) {
     const date = new Date(now);
     date.setDate(date.getDate() - i);
@@ -79,15 +79,18 @@ async function simulateDataGeneration(fieldId: number) {
     });
   }
 
-  // Generate 7 days of future irrigation plans
   for (let i = 1; i <= 7; i++) {
     const date = new Date(now);
     date.setDate(date.getDate() + i);
     
+    // Calculate water needed in mm (ETc = Kc * ET0)
+    // Simplified: Base 5mm + random weather variation
+    const waterNeededMm = 5 + (Math.random() * 10);
+    
     await storage.createIrrigationPlan({
       fieldId,
       date,
-      waterAmountMm: String((Math.random() * 15).toFixed(1)),
+      waterAmountMm: String(waterNeededMm.toFixed(1)),
       status: "planned",
     });
   }
@@ -101,7 +104,7 @@ async function seedDatabase() {
         name: "North Plot - Maize",
         cropType: "Maize",
         area: "12.5",
-        coordinates: [[-122.4194, 37.7749], [-122.4194, 37.7750], [-122.4184, 37.7750], [-122.4184, 37.7749]]
+        coordinates: [[37.7749, -122.4194], [37.7750, -122.4194], [37.7750, -122.4184], [37.7749, -122.4184]]
       });
       await simulateDataGeneration(field1.id);
 
@@ -109,7 +112,7 @@ async function seedDatabase() {
         name: "East Valley - Wheat",
         cropType: "Wheat",
         area: "8.2",
-        coordinates: [[-122.4190, 37.7752], [-122.4190, 37.7754], [-122.4180, 37.7754], [-122.4180, 37.7752]]
+        coordinates: [[37.7752, -122.4190], [37.7754, -122.4190], [37.7754, -122.4180], [37.7752, -122.4180]]
       });
       await simulateDataGeneration(field2.id);
     }
