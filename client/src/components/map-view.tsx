@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Polygon, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import { type Field } from "@shared/schema";
+import "leaflet/dist/leaflet.css";
 
 // Fix for default Leaflet icons in standard bundlers
 delete (L.Icon.Default.prototype as any)._getIconUrl;

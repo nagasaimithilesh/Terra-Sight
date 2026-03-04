@@ -24,7 +24,7 @@ export default function FieldsPage() {
     <div className="flex-1 overflow-hidden flex flex-col md:flex-row bg-background">
       
       {/* Left Sidebar List */}
-      <div className="w-full md:w-[400px] border-r border-border/50 flex flex-col h-full bg-card/30">
+      <div className="w-full md:w-[400px] h-1/2 md:h-full border-r border-b md:border-b-0 border-border/50 flex flex-col bg-card/30">
         <div className="p-6 border-b border-border/50 flex items-center justify-between bg-card">
           <div>
             <h2 className="text-2xl font-display font-bold">Fields</h2>
@@ -82,7 +82,7 @@ export default function FieldsPage() {
       </div>
 
       {/* Right Map Area */}
-      <div className="flex-1 h-full relative bg-muted/20 hidden md:block">
+      <div className="flex-1 h-1/2 md:h-full relative bg-muted/20">
         {!isLoading && fields && (
           <MapView 
             fields={fields} 
