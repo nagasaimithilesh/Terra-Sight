@@ -28,10 +28,10 @@ function MapController({ center, zoom }: { center: [number, number]; zoom: numbe
 }
 
 export function MapView({ fields, selectedFieldId, onFieldClick, height = "400px" }: MapViewProps) {
-  // Default to somewhere agricultural (e.g., Central Valley CA)
-  const defaultCenter: [number, number] = [36.7783, -119.4179];
+  // Default to India center
+  const defaultCenter: [number, number] = [20.5937, 78.9629];
   const [center, setCenter] = useState<[number, number]>(defaultCenter);
-  const [zoom, setZoom] = useState(6);
+  const [zoom, setZoom] = useState(5);
 
   useEffect(() => {
     if (selectedFieldId && fields.length > 0) {
@@ -55,11 +55,12 @@ export function MapView({ fields, selectedFieldId, onFieldClick, height = "400px
 
   useEffect(() => {
     // Force a resize check when the map is rendered to ensure it tiles correctly
+    // And ensure we are looking at the right center
     const timer = setTimeout(() => {
       window.dispatchEvent(new Event('resize'));
     }, 200);
     return () => clearTimeout(timer);
-  }, []);
+  }, [selectedFieldId]);
 
   return (
     <div style={{ height }} className="rounded-2xl overflow-hidden shadow-inner border border-border/50 bg-muted/20 relative z-0">
@@ -70,8 +71,8 @@ export function MapView({ fields, selectedFieldId, onFieldClick, height = "400px
         zoomControl={true}
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.google.com/intl/en-GB_ALL/help/terms_maps/">Google Maps</a>'
+          url="https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
         />
         <MapController center={center} zoom={zoom} />
         

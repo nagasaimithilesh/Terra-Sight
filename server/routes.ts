@@ -101,20 +101,28 @@ async function seedDatabase() {
     const existingFields = await storage.getFields();
     if (existingFields.length === 0) {
       const field1 = await storage.createField({
-        name: "North Plot - Maize",
-        cropType: "Maize",
-        area: "12.5",
-        coordinates: [[37.7749, -122.4194], [37.7750, -122.4194], [37.7750, -122.4184], [37.7749, -122.4184]]
+        name: "Punjab Wheat Belt",
+        cropType: "Wheat",
+        area: "15.0",
+        coordinates: [[30.7333, 76.7794], [30.7343, 76.7794], [30.7343, 76.7804], [30.7333, 76.7804]]
       });
       await simulateDataGeneration(field1.id);
 
       const field2 = await storage.createField({
-        name: "East Valley - Wheat",
-        cropType: "Wheat",
-        area: "8.2",
-        coordinates: [[37.7752, -122.4190], [37.7754, -122.4190], [37.7754, -122.4180], [37.7752, -122.4180]]
+        name: "Maharashtra Sugarcane",
+        cropType: "Sugarcane",
+        area: "10.5",
+        coordinates: [[18.5204, 73.8567], [18.5214, 73.8567], [18.5214, 73.8577], [18.5204, 73.8577]]
       });
       await simulateDataGeneration(field2.id);
+
+      const field3 = await storage.createField({
+        name: "Andhra Paddy Field",
+        cropType: "Rice",
+        area: "12.2",
+        coordinates: [[16.5062, 80.6480], [16.5072, 80.6480], [16.5072, 80.6490], [16.5062, 80.6490]]
+      });
+      await simulateDataGeneration(field3.id);
     }
   } catch (error) {
     console.error("Error seeding database:", error);
