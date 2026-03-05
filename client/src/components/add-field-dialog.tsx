@@ -61,7 +61,7 @@ function DrawingMap({ onPointsChange }: { onPointsChange: (points: [number, numb
     <>
       <TileLayer
         attribution='&copy; Google Maps'
-        url="https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
+        url="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}"
       />
       {points.length > 0 && points.length < 3 && points.map((p, i) => (
         <Marker key={i} position={p} />

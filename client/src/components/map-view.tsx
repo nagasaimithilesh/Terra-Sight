@@ -72,7 +72,7 @@ export function MapView({ fields, selectedFieldId, onFieldClick, height = "400px
       >
         <TileLayer
           attribution='&copy; <a href="https://www.google.com/intl/en-GB_ALL/help/terms_maps/">Google Maps</a>'
-          url="https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
+          url="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}"
         />
         <MapController center={center} zoom={zoom} />
         
